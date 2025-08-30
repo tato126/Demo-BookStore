@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 관리 - BookStore Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            background-color: #343a40;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+        .sidebar .active {
+            background-color: #007bff;
+        }
+        .main-content {
+            padding: 30px;
+        }
+        .product-img {
+            width: 50px;
+            height: 70px;
+            object-fit: cover;
+        }
+        .stock-low {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .stock-normal {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand">📚 BookStore Admin</span>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">관리자님 환영합니다</span>
+                <button class="btn btn-outline-light btn-sm" onclick="logout()">로그아웃</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 사이드바 -->
+            <div class="col-md-2 sidebar">
+                <a href="admin-main.html">🏠 대시보드</a>
+                <a href="admin-users.html">👥 회원 관리</a>
+                <a href="admin-products.html" class="active">📦 상품 관리</a>
+                <a href="admin-orders.html">🛒 주문 관리</a>
+                <hr class="bg-white">
+                <a href="#" onclick="alert('재고 관리 기능 준비중')">📊 재고 관리</a>
+                <a href="#" onclick="alert('통계 기능 준비중')">📈 통계</a>
+                <a href="#" onclick="alert('설정 기능 준비중')">⚙️ 설정</a>
+            </div>
+
+            <!-- 메인 콘텐츠 -->
+            <div class="col-md-10 main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>상품 관리</h2>
+                    <button class="btn btn-primary" onclick="alert('상품 등록 기능 준비중')">+ 새 상품 등록</button>
+                </div>
+
+                <!-- 검색 및 필터 -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="상품명, ISBN, 저자로 검색">
+                            <button class="btn btn-outline-secondary">검색</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select">
+                            <option>전체 카테고리</option>
+                            <option>프로그래밍</option>
+                            <option>소설</option>
+                            <option>자기계발</option>
+                            <option>경제/경영</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select">
+                            <option>재고 전체</option>
+                            <option>재고 있음</option>
+                            <option>재고 부족</option>
+                            <option>품절</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 상품 목록 테이블 -->
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>이미지</th>
+                                    <th>상품코드</th>
+                                    <th>상품명</th>
+                                    <th>저자</th>
+                                    <th>출판사</th>
+                                    <th>ISBN</th>
+                                    <th>카테고리</th>
+                                    <th>가격</th>
+                                    <th>재고</th>
+                                    <th>평점</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr onclick="viewProductDetail('B001')">
+                                    <td><div class="bg-secondary product-img"></div></td>
+                                    <td>B001</td>
+                                    <td><strong>자바의 정석</strong></td>
+                                    <td>남궁성</td>
+                                    <td>도우출판</td>
+                                    <td>9788994492032</td>
+                                    <td>프로그래밍</td>
+                                    <td>₩30,000</td>
+                                    <td class="stock-normal">45</td>
+                                    <td>⭐ 4.8</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" onclick="event.stopPropagation(); viewProductDetail('B001')">상세</button>
+                                        <button class="btn btn-sm btn-warning" onclick="event.stopPropagation(); editProduct('B001')">수정</button>
+                                    </td>
+                                </tr>
+                                <tr onclick="viewProductDetail('B002')">
+                                    <td><div class="bg-secondary product-img"></div></td>
+                                    <td>B002</td>
+                                    <td><strong>스프링 부트 실전</strong></td>
+                                    <td>김영한</td>
+                                    <td>인프런출판</td>
+                                    <td>9788968488320</td>
+                                    <td>프로그래밍</td>
+                                    <td>₩35,000</td>
+                                    <td class="stock-low">3</td>
+                                    <td>⭐ 4.9</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" onclick="event.stopPropagation(); viewProductDetail('B002')">상세</button>
+                                        <button class="btn btn-sm btn-warning" onclick="event.stopPropagation(); editProduct('B002')">수정</button>
+                                    </td>
+                                </tr>
+                                <tr onclick="viewProductDetail('B003')">
+                                    <td><div class="bg-secondary product-img"></div></td>
+                                    <td>B003</td>
+                                    <td><strong>클린 코드</strong></td>
+                                    <td>로버트 C. 마틴</td>
+                                    <td>인사이트</td>
+                                    <td>9788966260959</td>
+                                    <td>프로그래밍</td>
+                                    <td>₩28,000</td>
+                                    <td class="stock-normal">22</td>
+                                    <td>⭐ 4.7</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" onclick="event.stopPropagation(); viewProductDetail('B003')">상세</button>
+                                        <button class="btn btn-sm btn-warning" onclick="event.stopPropagation(); editProduct('B003')">수정</button>
+                                    </td>
+                                </tr>
+                                <tr onclick="viewProductDetail('B004')">
+                                    <td><div class="bg-secondary product-img"></div></td>
+                                    <td>B004</td>
+                                    <td><strong>리팩토링 2판</strong></td>
+                                    <td>마틴 파울러</td>
+                                    <td>한빛미디어</td>
+                                    <td>9791162242742</td>
+                                    <td>프로그래밍</td>
+                                    <td>₩32,000</td>
+                                    <td class="stock-normal">18</td>
+                                    <td>⭐ 4.6</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" onclick="event.stopPropagation(); viewProductDetail('B004')">상세</button>
+                                        <button class="btn btn-sm btn-warning" onclick="event.stopPropagation(); editProduct('B004')">수정</button>
+                                    </td>
+                                </tr>
+                                <tr onclick="viewProductDetail('B005')">
+                                    <td><div class="bg-secondary product-img"></div></td>
+                                    <td>B005</td>
+                                    <td><strong>이펙티브 자바 3판</strong></td>
+                                    <td>조슈아 블로크</td>
+                                    <td>인사이트</td>
+                                    <td>9788966262281</td>
+                                    <td>프로그래밍</td>
+                                    <td>₩36,000</td>
+                                    <td class="text-danger">0</td>
+                                    <td>⭐ 4.9</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" onclick="event.stopPropagation(); viewProductDetail('B005')">상세</button>
+                                        <button class="btn btn-sm btn-warning" onclick="event.stopPropagation(); editProduct('B005')">수정</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 페이지네이션 -->
+                <nav class="mt-3">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">이전</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">다음</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- 재고 알림 -->
+                <div class="alert alert-warning mt-3">
+                    <strong>⚠️ 재고 알림:</strong> 3개 상품의 재고가 부족합니다. 확인이 필요합니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            if (confirm('로그아웃 하시겠습니까?')) {
+                alert('로그아웃 되었습니다.');
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        function viewProductDetail(productId) {
+            window.location.href = `admin-product-detail.html?id=${productId}`;
+        }
+
+        function editProduct(productId) {
+            alert(`상품 ${productId} 수정 기능 준비중`);
+        }
+    </script>
+</body>
+</html>
