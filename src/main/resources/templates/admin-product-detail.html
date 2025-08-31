@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -108,38 +108,40 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">상품코드</label>
-                                        <input type="text" class="form-control" id="productId" value="B001" readonly>
+                                        <input type="text" class="form-control" id="productId" th:value="${book != null ? (book.bookId != null ? book.bookId : 'B' + bookIndex) : 'N/A'}" readonly>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">상품명</label>
-                                        <input type="text" class="form-control" id="productName" value="자바의 정석">
+                                        <input type="text" class="form-control" id="productName" th:value="${book != null ? book.bookName : ''}">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">저자</label>
-                                        <input type="text" class="form-control" id="author" value="남궁성">
+                                        <input type="text" class="form-control" id="author" th:value="${book != null ? book.author : ''}">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">출판사</label>
-                                        <input type="text" class="form-control" id="publisher" value="도우출판">
+                                        <input type="text" class="form-control" id="publisher" th:value="${book != null ? book.publisher : ''}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">ISBN</label>
-                                        <input type="text" class="form-control" id="isbn" value="9788994492032">
+                                        <input type="text" class="form-control" id="isbn" th:value="${book != null ? book.isbn : ''}">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">카테고리</label>
                                         <select class="form-select" id="category">
-                                            <option selected>프로그래밍</option>
-                                            <option>소설</option>
-                                            <option>자기계발</option>
-                                            <option>경제/경영</option>
+                                            <option th:selected="${book != null && book.bookCategory == 'programming'}" value="programming">프로그래밍</option>
+                                            <option th:selected="${book != null && book.bookCategory == 'novel'}" value="novel">소설</option>
+                                            <option th:selected="${book != null && book.bookCategory == 'self-help'}" value="self-help">자기계발</option>
+                                            <option th:selected="${book != null && book.bookCategory == 'business'}" value="business">경제/경영</option>
+                                            <option th:selected="${book != null && book.bookCategory == 'science'}" value="science">과학</option>
+                                            <option th:selected="${book != null && book.bookCategory == 'history'}" value="history">역사</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">출간일</label>
-                                        <input type="date" class="form-control" id="publishDate" value="2016-01-27">
+                                        <input type="date" class="form-control" id="publishDate" th:value="${book != null && book.publishDate != null ? book.publishDate : ''}">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">평점</label>
@@ -157,7 +159,7 @@
                 <!-- 상품 설명 -->
                 <div class="detail-section">
                     <h5 class="section-title">상품 설명</h5>
-                    <textarea class="form-control" rows="5" id="description">자바를 처음 배우는 사람부터 실무에서 자바를 사용하는 개발자까지 모두를 위한 자바 기본서입니다. 자바의 기초 문법부터 객체지향 개념, 그리고 실무에서 필요한 다양한 기능들을 상세하게 설명합니다.</textarea>
+                    <textarea class="form-control" rows="5" id="description" th:text="${book != null ? book.explanation : ''}"></textarea>
                 </div>
 
                 <!-- 가격 및 재고 정보 -->
@@ -169,7 +171,7 @@
                                 <label class="form-label">정가</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₩</span>
-                                    <input type="number" class="form-control" id="originalPrice" value="30000">
+                                    <input type="number" class="form-control" id="originalPrice" th:value="${book != null ? book.regularPrice : 0}">
                                 </div>
                             </div>
                         </div>
@@ -178,7 +180,7 @@
                                 <label class="form-label">판매가</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₩</span>
-                                    <input type="number" class="form-control" id="salePrice" value="27000">
+                                    <input type="number" class="form-control" id="salePrice" th:value="${book != null ? book.salePrice : 0}">
                                 </div>
                             </div>
                         </div>
@@ -186,7 +188,7 @@
                             <div class="mb-3">
                                 <label class="form-label">할인율</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="discount" value="10" min="0" max="100">
+                                    <input type="number" class="form-control" id="discount" th:value="${book != null ? book.discountRate : 0}" min="0" max="100">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
@@ -194,7 +196,7 @@
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label class="form-label">현재 재고</label>
-                                <input type="number" class="form-control stock-normal" id="stock" value="45">
+                                <input type="number" class="form-control stock-normal" id="stock" th:value="${book != null ? book.product : 0}">
                             </div>
                         </div>
                     </div>
@@ -202,13 +204,13 @@
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label class="form-label">최소 재고</label>
-                                <input type="number" class="form-control" id="minStock" value="10">
+                                <input type="number" class="form-control" id="minStock" th:value="${book != null && book.minProduct != null ? book.minProduct : 10}">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label class="form-label">최대 재고</label>
-                                <input type="number" class="form-control" id="maxStock" value="100">
+                                <input type="number" class="form-control" id="maxStock" th:value="${book != null && book.maxProduct != null ? book.maxProduct : 100}">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -313,8 +315,12 @@
 
         function deleteProduct() {
             if (confirm('정말로 이 상품을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
-                alert('상품이 삭제되었습니다.');
-                window.location.href = 'admin-products.html';
+                // form을 동적으로 생성하여 POST 요청
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = window.location.pathname;
+                document.body.appendChild(form);
+                form.submit();
             }
         }
     </script>
