@@ -1,23 +1,19 @@
 package org.example.demoBookStore.admin.service;
 
+import org.springframework.stereotype.Service;
+
 /**
  * 관리자(Admin) 서비스에 대한 정보를 관리한다.
  *
- * (!)는 우선순위에서 보다 밀려난 것을 의미한다.
+ * (!)는 우선적으로 개발해야함을 의미한다.
+ * (~)는 우선순위에서 보다 밀려난 것을 의미한다.
  * (?)는 해당 객체에 필요한 기능인가를 의미한다.
  * (*)은 향후 발전 가능 기능을 의미한다.
  *
  * @author chan
  */
+@Service
 public class AdminService {
-
-    // 로그인 검사
-    public void check_login() {
-
-        // 저장된 로그인 정보가 있는지 확인한다.
-        // 만약 저장된 로그인 정보가 없으면 예외처리한다.
-
-    }
 
     // 상품 조회
     public void find_product() {
