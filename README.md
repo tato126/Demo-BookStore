@@ -4,12 +4,13 @@
 
 ## 📋 프로젝트 소개
 
-Demo-BookStore는 Spring Boot 기반의 온라인 서점 관리 시스템입니다. 관리자가 도서 상품, 회원, 주문을 효율적으로 관리할 수 있는 웹 애플리케이션으로, MVC 패턴을 적용하여 개발되고 있습니다.
+Demo-BookStore는 Spring Boot 기반의 온라인 서점 관리 시스템입니다. 관리자가 도서 상품, 회원, 주문을 효율적으로 관리할 수 있는 웹 애플리케이션으로, MVC 패턴과 JPA를 적용하여 개발되고 있습니다.
 
 ### 주요 특징
 - 관리자 중심의 백오피스 시스템
-- 도서 상품 통합 관리
+- 도서 상품 통합 관리 (CRUD 완성)
 - 회원 및 주문 관리 기능
+- JPA 기반 데이터 영속성 관리
 - 반응형 웹 디자인
 
 ## 🛠 기술 스택
@@ -18,19 +19,21 @@ Demo-BookStore는 Spring Boot 기반의 온라인 서점 관리 시스템입니�
 - **Framework**: Spring Boot 3.5.5
 - **Language**: Java 21
 - **Build Tool**: Gradle
+- **ORM**: Spring Data JPA / Hibernate
 - **Dependencies**: 
   - Spring Web
+  - Spring Data JPA
   - Spring Boot DevTools
   - Lombok
 
 ### Frontend
-- **Template Engine**: Thymeleaf
+- **Template Engine**: Thymeleaf + Layout Dialect
 - **CSS Framework**: Bootstrap 5.1.3
 - **JavaScript**: Vanilla JS
 
-### Database (예정)
-- H2 Database (개발환경)
-- MySQL (운영환경)
+### Database
+- **개발환경**: H2 Database (인메모리)
+- **운영환경**: MySQL (예정)
 
 ## 📁 프로젝트 구조
 
@@ -42,77 +45,89 @@ src/
 │   │   │   ├── controller/      # 관리자 컨트롤러
 │   │   │   │   ├── login/       # 로그인 관련
 │   │   │   │   └── product/     # 상품 관리
-│   │   │   ├── entity/          # 관리자 엔티티
+│   │   │   ├── entity/          # Admin 엔티티 & Repository
 │   │   │   └── service/         # 관리자 서비스
 │   │   ├── product/
-│   │   │   ├── dto/             # 상품 DTO
-│   │   │   ├── entity/          # 상품 엔티티
-│   │   │   └── service/         # 상품 서비스
-│   │   ├── user/                # 사용자 관련
+│   │   │   ├── entity/          # Book 엔티티 & Repository
+│   │   │   └── service/         # ProductService (CRUD 구현)
+│   │   ├── user/                # User 엔티티 & Enum
+│   │   ├── config/              # DataInitializer
 │   │   └── dto/                 # 공통 DTO
 │   └── resources/
-│       ├── templates/           # Thymeleaf 템플릿
-│       │   ├── admin-*.html     # 관리자 페이지
-│       └── application.properties
+│       ├── templates/           
+│       │   ├── admin/           # 관리자 페이지 (재구성)
+│       │   ├── fragments/       # 공통 컴포넌트
+│       │   └── layouts/         # 레이아웃 템플릿
+│       └── application.properties  # H2 DB 설정
 └── test/
 ```
 
-## 📊 현재 진행 상황 (2025-08-30 기준)
+## 📊 현재 진행 상황 (2025-09-02 기준)
 
 ### ✅ 완료된 작업
 - Spring Boot 프로젝트 초기 설정
 - MVC 패턴 기본 구조 구축
-- 관리자 UI 전체 구조 구현 (8개 페이지)
-  - 로그인 페이지
-  - 메인 대시보드
-  - 회원/상품/주문 관리 페이지
-  - 상세 조회 페이지들
-- 상품 등록 폼 구현
+- **JPA/Hibernate 설정 및 H2 Database 연동**
+- **Repository 인터페이스 구현 (ProductRepository, AdminRepository)**
+- **Book 엔티티 JPA 매핑 완료**
+- **ProductService CRUD 메서드 구현**
+  - `registry_product()` - 상품 등록
+  - `update_product()` - 상품 수정 (부분 업데이트 지원)
+  - `findAll_products()` - 전체 조회
+  - `findById_product()` - 상세 조회
+  - `delete_product()` - 상품 삭제
+- **예외 처리 개선 (IllegalArgumentException 활용)**
+- 관리자 UI 구조 재편성
+  - admin/ 디렉토리 구조로 템플릿 정리
+  - 상품 수정 페이지 추가 (product-update.html)
 - 관리자 로그인/로그아웃 기능
-- DTO 클래스 정의 (Book, Admin, User)
-- 기본 Controller/Service 구조 설정
+- DataInitializer를 통한 초기 데이터 설정
 
 ### 🔄 진행 중인 작업
-- 데이터베이스 연동 준비
-- Service 레이어 비즈니스 로직 구현
-- Form 데이터 바인딩 최적화
+- 입력값 검증 로직 강화
+- 트랜잭션 관리 (@Transactional)
+- 로깅 시스템 도입
 
 ### ⏸️ 대기 중인 작업
-- JPA Entity 설정 및 Repository 구현
-- 실제 CRUD 기능 구현
 - Spring Security 적용
 - 테스트 코드 작성
+- 회원/주문 관리 기능 구현
+- RESTful API 문서화
 
 ## 💡 주요 기능
 
 ### 1. 관리자 인증 시스템
-- 로그인/로그아웃 기능
+- 로그인/로그아웃 기능 ✅
 - 세션 관리 (예정)
 - 권한 기반 접근 제어 (예정)
 
-### 2. 상품(도서) 관리
-- 도서 등록/수정/삭제
-- 도서 목록 조회 및 검색
-- 재고 관리
-- 카테고리별 분류
+### 2. 상품(도서) 관리 
+- **도서 등록** ✅ - JPA save() 활용
+- **도서 수정** ✅ - 부분 업데이트 지원
+- **도서 삭제** ✅ - Soft/Hard delete 지원
+- **도서 목록 조회** ✅ - findAll() 구현
+- **도서 상세 조회** ✅ - findById() 구현
+- 도서 검색 기능 (예정)
+- 재고 관리 (진행중)
+- 카테고리별 분류 (예정)
 
 ### 3. 회원 관리
-- 회원 목록 조회
-- 회원 상세 정보 확인
-- 회원 등급 관리
-- 주문 이력 조회
+- 회원 목록 조회 (예정)
+- 회원 상세 정보 확인 (예정)
+- 회원 등급 관리 (예정)
+- 주문 이력 조회 (예정)
 
 ### 4. 주문 관리
-- 주문 목록 조회
-- 주문 상태 관리
-- 주문 상세 정보 확인
-- 배송 정보 관리
+- 주문 목록 조회 (예정)
+- 주문 상태 관리 (예정)
+- 주문 상세 정보 확인 (예정)
+- 배송 정보 관리 (예정)
 
 ### 5. 대시보드
-- 실시간 통계 정보
-- 최근 주문 현황
-- 매출 현황
-- 재고 알림
+- 실시간 통계 정보 (예정)
+- 최근 주문 현황 (예정)
+- 매출 현황 (예정)
+- 재고 알림 (예정)
 
 ## 🚀 설치 및 실행 방법
 
@@ -143,19 +158,48 @@ cd Demo-BookStore
 http://localhost:8080/admin/login
 ```
 
+5. H2 Console 접속 (데이터베이스 확인)
+```
+http://localhost:8080/h2-console
+JDBC URL: jdbc:h2:mem:bookstoredb
+Username: sa
+Password: (비워두기)
+```
+
 ### 테스트 계정
 - **ID**: admin
 - **Password**: admin123
 
+## 🔌 API 엔드포인트
+
+### 상품 관리 API
+| Method | Endpoint | Description | Status |
+|--------|----------|-------------|--------|
+| GET | `/admin/products` | 상품 목록 조회 | ✅ |
+| GET | `/admin/products/{id}` | 상품 상세 조회 | ✅ |
+| GET | `/admin/products/create` | 상품 등록 폼 | ✅ |
+| POST | `/admin/products` | 상품 등록 | ✅ |
+| GET | `/admin/products/{id}/edit` | 상품 수정 폼 | ✅ |
+| PUT | `/admin/products/{id}` | 상품 수정 | ✅ |
+| DELETE | `/admin/products/{id}` | 상품 삭제 | ✅ |
+
+### 관리자 인증
+| Method | Endpoint | Description | Status |
+|--------|----------|-------------|--------|
+| GET | `/admin/login` | 로그인 페이지 | ✅ |
+| POST | `/admin/login` | 로그인 처리 | ✅ |
+| GET | `/admin/logout` | 로그아웃 | ✅ |
+| GET | `/admin/main` | 대시보드 | ✅ |
+
 ## 📈 개발 로드맵
 
 ### 우선순위 높음 (!)
-- [ ] 데이터베이스 연동
-  - [ ] H2 Database 설정
-  - [ ] JPA Entity 매핑
-  - [ ] Repository 인터페이스 구현
-- [ ] 핵심 CRUD 기능 구현
-  - [ ] 상품 등록/조회/수정/삭제
+- [x] 데이터베이스 연동
+  - [x] H2 Database 설정
+  - [x] JPA Entity 매핑
+  - [x] Repository 인터페이스 구현
+- [x] 핵심 CRUD 기능 구현 (상품)
+  - [x] 상품 등록/조회/수정/삭제
   - [ ] 회원 관리 기능
   - [ ] 주문 처리 기능
 - [ ] Spring Security 적용
@@ -197,13 +241,55 @@ http://localhost:8080/admin/login
 | 모듈 | 진행률 | 상태 |
 |------|--------|------|
 | 프로젝트 설정 | 100% | ✅ 완료 |
-| UI/UX 디자인 | 80% | 🔄 진행중 |
+| 데이터베이스 | 70% | 🔄 진행중 |
+| UI/UX 디자인 | 85% | 🔄 진행중 |
 | 관리자 인증 | 60% | 🔄 진행중 |
-| 상품 관리 | 40% | 🔄 진행중 |
-| 회원 관리 | 30% | ⏸️ 대기 |
-| 주문 관리 | 30% | ⏸️ 대기 |
-| 데이터베이스 | 10% | ⏸️ 대기 |
+| 상품 관리 | 80% | 🔄 진행중 |
+| 회원 관리 | 10% | ⏸️ 대기 |
+| 주문 관리 | 10% | ⏸️ 대기 |
 | 테스트 | 0% | ⏸️ 대기 |
+
+## 💻 코드 예제
+
+### 상품 수정 메서드 (부분 업데이트 패턴)
+```java
+public Book update_product(Long id, Book updatedBook) {
+    // 파라미터 검증
+    if (id == null) {
+        throw new IllegalArgumentException("ID가 null일 수 없습니다.");
+    }
+    
+    Optional<Book> optionalBook = repository.findById(id);
+    
+    if (optionalBook.isPresent()) {
+        Book existingBook = optionalBook.get();
+        
+        // null이 아닌 필드만 선택적 업데이트
+        if (updatedBook.getBookName() != null) {
+            existingBook.setBookName(updatedBook.getBookName());
+        }
+        // ... 다른 필드들도 동일하게 처리
+        
+        return repository.save(existingBook);
+    } else {
+        throw new IllegalArgumentException("ID" + id + "에 해당하는 도서를 찾을 수 없습니다.");
+    }
+}
+```
+
+### 예외 처리 패턴
+```java
+// Before: 모호한 에러 처리
+if (book == null) {
+    System.out.println("도서 객체가 null 입니다.");
+    return null;
+}
+
+// After: 명시적 예외 처리
+if (book == null) {
+    throw new IllegalArgumentException("도서 정보가 null일 수 없습니다.");
+}
+```
 
 ## 🔍 개발 규칙
 
