@@ -1,10 +1,13 @@
 package org.example.demoBookStore.product.service;
 
-import org.example.demoBookStore.product.dto.Book;
+import org.example.demoBookStore.product.entity.Book;
+import org.example.demoBookStore.product.entity.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 도서(Book) 비즈니스 로직 클래스이다.
@@ -20,6 +23,9 @@ import java.util.List;
 public class ProductService {
 
     List<Book> bookList = new ArrayList<>(); // 등록한 상품 관리 리스트 배열
+
+    @Autowired
+    ProductRepository repository;
 
     // 상품(Book)을 등록한다.
     public Book registry_product(Book book) {
@@ -46,17 +52,90 @@ public class ProductService {
     }
 
     // 상품 수정
-    public void update_product() {
+    // 수정할 대상을 DB에서 조회해서 가져와야 한다.
+    public Book update_product(Long id, Book updatedBook) {
 
+        System.out.println("[Service] update_product");
+
+        // (!) 예외처리 필수
+        // 1. id가 null 인가요?
+        if (id == null) {
+            throw new IllegalArgumentException("ID가 null일 수 없습니다.");
+        }
+
+        if (updatedBook == null) {
+            throw new IllegalArgumentException("수정할 도서 정보가 null 일 수 없습니다.");
+        }
+
+        // 2. 수정할 대상이 null 인가요?
+        Optional<Book> optionalBook = repository.findById(id);
+
+        if (optionalBook.isPresent()) {
+
+            Book existingBook = optionalBook.get();
+
+            // (!) null 체크 중복 제거는 어떻게 할 수 있을까?
+            // 3. 각 필드 업데이트 (null이 아닌 값만)
+
+            if (updatedBook.getBookName() != null) {
+                existingBook.setBookName(updatedBook.getBookName());
+            }
+            if (updatedBook.getAuthor() != null) {
+                existingBook.setAuthor(updatedBook.getAuthor());
+            }
+            if (updatedBook.getPublisher() != null) {
+                existingBook.setPublisher(updatedBook.getPublisher());
+            }
+            if (updatedBook.getIsbn() != null) {
+                existingBook.setIsbn(updatedBook.getIsbn());
+            }
+            if (updatedBook.getBookCategory() != null) {
+                existingBook.setBookCategory(updatedBook.getBookCategory());
+            }
+            if (updatedBook.getPublishDate() != null) {
+                existingBook.setPublishDate(updatedBook.getPublishDate());
+            }
+
+            // 가격 정보 업데이트 (0이 아닌 경우만)
+            if (updatedBook.getRegularPrice() > 0) {
+                existingBook.setRegularPrice(updatedBook.getRegularPrice());
+            }
+            if (updatedBook.getSalePrice() > 0) {
+                existingBook.setSalePrice(updatedBook.getSalePrice());
+            }
+            if (updatedBook.getDiscountRate() >= 0) {
+                existingBook.setDiscountRate(updatedBook.getDiscountRate());
+            }
+
+            // 재고 정보 업데이트
+            if (updatedBook.getProduct() != null) {
+                existingBook.setProduct(updatedBook.getProduct());
+            }
+            if (updatedBook.getMinProduct() != null) {
+                existingBook.setMinProduct(updatedBook.getMinProduct());
+            }
+            if (updatedBook.getMaxProduct() != null) {
+                existingBook.setMaxProduct(updatedBook.getMaxProduct());
+            }
+
+            // 설명 업데이트
+            if (updatedBook.getExplanation() != null) {
+                existingBook.setExplanation(updatedBook.getExplanation());
+            }
+
+
+            return repository.save(existingBook);
+        } else {
+            throw new IllegalArgumentException("ID" + id + "에 해당하는 도서를 찾을 수 없습니다.");
+        }
     }
-
 
     // 상품 전체 조회
     public List<Book> findAll_products() {
 
         System.out.println("== [Service] 상품 전체 조회 ==");
 
-        return bookList;
+        return repository.findAll();
     }
 
     // 상품 상세 조회
@@ -67,19 +146,23 @@ public class ProductService {
         // 예외 처리
         if (id == null) {
             System.out.println("[Service Error] 삭제하려는 id가 null 입니다.");
+            return null; // (!) 예외 처리 로직 필요
         }
 
-        // booklist에서 가져와야한다.
-        // 지금은 bookList의 인덱스를 가져온다.
-        // id가 not null이고 list 배열보다 작다면 리스트의 인덱스를 반환한다.
-        if (id != null && id <= bookList.size()) {
+        // DB에서 조회한다.
+        Optional<Book> optionalBook = repository.findById(id);
 
-            System.out.println("단일 조회 객체 : " + bookList.get(id.intValue() - 1));
+        // 이걸 DB에서 테스트 하려면 어떻게 해야하지?
+        // repository.findById(id) 가 null이 아닐경우
+        if (optionalBook.isPresent()) {
 
-            return bookList.get(id.intValue() - 1);
+            Book book = optionalBook.get();
+
+            System.out.println("단일 객체 조회 : " + book);
+            return book;
         }
 
-        System.out.println("조회에 실패했습니다!!!");
+        System.out.println("조회에 실패했습니다!!! ID: " + id);
 
         return null;
     }
