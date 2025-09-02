@@ -23,7 +23,7 @@ public class AdminController {
 
         System.out.println("== 관리자 메인 페이지 ==");
 
-        return "admin-main";
+        return "admin/main";
     }
 
     // 주문한 상품 조회
@@ -33,7 +33,7 @@ public class AdminController {
 
         // 조회할  상품 유효성 검사
 
-        return "admin-orders";
+        return "admin/orders";
 
     }
 
@@ -44,7 +44,7 @@ public class AdminController {
 
         // 상세 조회 화면 유효성 검사
 
-        return "admin-order-detail";
+        return "admin/order-detail";
     }
 
     // 재고 조회화면 이동

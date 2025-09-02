@@ -30,7 +30,7 @@ public class LoginController {
 
         System.out.println("== 어드민 로그인 화면호출 ==");
 
-        return "admin-login";
+        return "admin/login";
     }
 
     // 로그인 정보를 입력한다.
@@ -52,7 +52,7 @@ public class LoginController {
             return "redirect:/admin/login";
         }
 
-        return "admin-main";
+        return "admin/main";
     }
 
     // 로그아웃

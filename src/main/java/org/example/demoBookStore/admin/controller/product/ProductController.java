@@ -1,6 +1,6 @@
 package org.example.demoBookStore.admin.controller.product;
 
-import org.example.demoBookStore.product.dto.Book;
+import org.example.demoBookStore.product.entity.Book;
 import org.example.demoBookStore.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +44,7 @@ public class ProductController {
 
         model.addAttribute("bookList", bookList);
 
-        return "admin-products";
+        return "admin/products";
     }
 
     // 어드민이 상품을 등록한다.
@@ -93,7 +93,7 @@ public class ProductController {
         // 조회한 객체
         System.out.println(model.getAttribute("book"));
 
-        return "admin-product-detail";
+        return "admin/product-detail";
     }
 
     // 상품 등록 페이지로 이동
@@ -102,17 +102,51 @@ public class ProductController {
 
         System.out.println("== [Controller] 상품 등록 페이지로 이동 ==");
 
-        return "admin-product-create";
+        return "admin/product-create";
     }
 
+    // 상품 수정 페이지 GET
+    @GetMapping("/update/{id}")
+    public String update_productPage(@PathVariable("id") Long id, Model model) {
+
+        System.out.println("== [Controller] 상품 업데이트 화면으로 이동 ==");
+
+        // 수정할 상품 조회
+        Book book = bookService.findById_product(id);
+
+        // 유효성 상품 조회
+        if (book == null) {
+            System.out.println("[Controller] 수정할 상품을 찾을 수 없습니다.");
+            return "redirect:/admin/product";
+        }
+
+        // Model에 book
+        model.addAttribute("book", book);
+
+        return "admin/product-update";
+    }
 
     // 상품 수정
-    @PostMapping("/update")
-    public String update_productPage() {
+    // 해당 상품의 id를 조회한다.
+    // 해당 id의 상품을 찾아온다.
+    // 수정하는 화면으로 이동한다.
+    // 화면에 데이터를 수정한다.
+    @PostMapping("/update/{id}")
+    public String update_productProcess(@PathVariable("id") Long id, Book updateBook) {
 
         System.out.println("== [Controller] 상품 업데이트 ==");
 
-        return "";
+        var result = bookService.update_product(id, updateBook);
+
+        // 유효성 검사
+        if (result == null) {
+            System.out.println("[Controller] 상품 수정 실패");
+            return "redirect:/admin/product";
+        }
+
+        System.out.println("상품을 업데이트 한다.");
+
+        return "redirect:/admin/product";
     }
 
     // 상품 삭제
