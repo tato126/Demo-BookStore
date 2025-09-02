@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>상품 상세 정보</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>상품 상세 정보</h2>
+            <button class="btn btn-secondary" onclick="history.back()">목록으로</button>
+        </div>
+
+        <!-- 기본 정보 -->
+        <div class="detail-section">
+            <h5 class="section-title">기본 정보</h5>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="product-image">
+                        <span class="text-muted">상품 이미지</span>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-sm btn-outline-primary w-100">이미지 변경</button>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">상품코드</label>
+                                <input type="text" class="form-control" id="productId" th:value="${book != null ? (book.bookId != null ? book.bookId : 'B' + bookIndex) : 'N/A'}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">상품명</label>
+                                <input type="text" class="form-control" id="productName" th:value="${book != null ? book.bookName : ''}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">저자</label>
+                                <input type="text" class="form-control" id="author" th:value="${book != null ? book.author : ''}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">출판사</label>
+                                <input type="text" class="form-control" id="publisher" th:value="${book != null ? book.publisher : ''}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">ISBN</label>
+                                <input type="text" class="form-control" id="isbn" th:value="${book != null ? book.isbn : ''}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">카테고리</label>
+                                <select class="form-select" id="category">
+                                    <option th:selected="${book != null && book.bookCategory == 'programming'}" value="programming">프로그래밍</option>
+                                    <option th:selected="${book != null && book.bookCategory == 'novel'}" value="novel">소설</option>
+                                    <option th:selected="${book != null && book.bookCategory == 'self-help'}" value="self-help">자기계발</option>
+                                    <option th:selected="${book != null && book.bookCategory == 'business'}" value="business">경제/경영</option>
+                                    <option th:selected="${book != null && book.bookCategory == 'science'}" value="science">과학</option>
+                                    <option th:selected="${book != null && book.bookCategory == 'history'}" value="history">역사</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">출간일</label>
+                                <input type="date" class="form-control" id="publishDate" th:value="${book != null && book.publishDate != null ? book.publishDate : ''}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">평점</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="rating" value="4.8" min="0" max="5" step="0.1">
+                                    <span class="input-group-text">/ 5.0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 상품 설명 -->
+        <div class="detail-section">
+            <h5 class="section-title">상품 설명</h5>
+            <textarea class="form-control" rows="5" id="description" th:text="${book != null ? book.explanation : ''}"></textarea>
+        </div>
+
+        <!-- 가격 및 재고 정보 -->
+        <div class="detail-section">
+            <h5 class="section-title">가격 및 재고 정보</h5>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">정가</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₩</span>
+                            <input type="number" class="form-control" id="originalPrice" th:value="${book != null ? book.regularPrice : 0}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">판매가</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₩</span>
+                            <input type="number" class="form-control" id="salePrice" th:value="${book != null ? book.salePrice : 0}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">할인율</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="discountRate" th:value="${book != null ? book.discountRate : 0}" min="0" max="100">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">현재 재고</label>
+                        <input type="number" class="form-control stock-normal" id="stock" th:value="${book != null ? book.product : 0}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">최소 재고</label>
+                        <input type="number" class="form-control" id="minStock" th:value="${book != null && book.minProduct != null ? book.minProduct : 10}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">최대 재고</label>
+                        <input type="number" class="form-control" id="maxStock" th:value="${book != null && book.maxProduct != null ? book.maxProduct : 100}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">상태</label>
+                        <select class="form-select" id="status">
+                            <option selected>판매중</option>
+                            <option>품절</option>
+                            <option>판매중지</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 판매 통계 -->
+        <div class="detail-section">
+            <h5 class="section-title">판매 통계</h5>
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <h4 class="text-primary">152</h4>
+                    <p>총 판매량</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-success">₩4,104,000</h4>
+                    <p>총 매출</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-info">23</h4>
+                    <p>이번 달 판매</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-warning">4.8</h4>
+                    <p>평균 평점</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 관리 버튼 -->
+        <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-primary" onclick="saveProduct()">수정 페이지로</button>
+            <button class="btn btn-warning" onclick="duplicateProduct()">상품 복제</button>
+            <button class="btn btn-danger" onclick="deleteProduct()">상품 삭제</button>
+            <button class="btn btn-secondary" onclick="history.back()">목록으로</button>
+        </div>
+    </div>
+    
+    <th:block layout:fragment="javascript">
+        <script th:src="@{/js/admin-product.js}"></script>
+        <script>
+            // Set active menu
+            const activeMenu = 'products';
+            
+            function saveProduct() {
+                const pathParts = window.location.pathname.split('/');
+                const productId = pathParts[pathParts.length - 1];
+                window.location.href = `/admin/product/update/${productId}`;
+            }
+        </script>
+    </th:block>
+</body>
+</html>

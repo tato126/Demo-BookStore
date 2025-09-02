@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>주문 상세</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>주문 상세 정보</h2>
+            <button class="btn btn-secondary" onclick="history.back()">목록으로</button>
+        </div>
+
+        <!-- 주문 기본 정보 -->
+        <div class="detail-section">
+            <h5 class="section-title">주문 정보</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="30%">주문번호</th>
+                            <td><strong>#ORD2024001</strong></td>
+                        </tr>
+                        <tr>
+                            <th>주문일시</th>
+                            <td>2024-01-15 14:30</td>
+                        </tr>
+                        <tr>
+                            <th>주문상태</th>
+                            <td><span class="badge bg-warning">신규주문</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="30%">결제방법</th>
+                            <td>신용카드</td>
+                        </tr>
+                        <tr>
+                            <th>결제상태</th>
+                            <td><span class="badge bg-success">결제완료</span></td>
+                        </tr>
+                        <tr>
+                            <th>총 결제금액</th>
+                            <td><strong>₩30,000</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 고객 정보 -->
+        <div class="detail-section">
+            <h5 class="section-title">고객 정보</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="30%">고객명</th>
+                            <td>김철수</td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td>kim@example.com</td>
+                        </tr>
+                        <tr>
+                            <th>연락처</th>
+                            <td>010-1234-5678</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 배송 정보 -->
+        <div class="detail-section">
+            <h5 class="section-title">배송 정보</h5>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="15%">수령인</th>
+                            <td>김철수</td>
+                        </tr>
+                        <tr>
+                            <th>배송지</th>
+                            <td>서울시 강남구 테헤란로 123 아파트 101동 1234호</td>
+                        </tr>
+                        <tr>
+                            <th>연락처</th>
+                            <td>010-1234-5678</td>
+                        </tr>
+                        <tr>
+                            <th>배송메모</th>
+                            <td>부재시 경비실에 맡겨주세요</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 주문 상품 -->
+        <div class="detail-section">
+            <h5 class="section-title">주문 상품</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>상품명</th>
+                        <th>ISBN</th>
+                        <th>단가</th>
+                        <th>수량</th>
+                        <th>소계</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>자바의 정석</td>
+                        <td>9788994492032</td>
+                        <td>₩30,000</td>
+                        <td>1</td>
+                        <td>₩30,000</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="4" class="text-end">총 금액</th>
+                        <th>₩30,000</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- 관리 버튼 -->
+        <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-success" onclick="processOrder()">주문 처리</button>
+            <button class="btn btn-primary" onclick="shipOrder()">배송 시작</button>
+            <button class="btn btn-danger" onclick="cancelOrder()">주문 취소</button>
+            <button class="btn btn-secondary" onclick="history.back()">목록으로</button>
+        </div>
+    </div>
+    
+    <th:block layout:fragment="javascript">
+        <script th:src="@{/js/admin-order.js}"></script>
+        <script>
+            // Set active menu
+            const activeMenu = 'orders';
+        </script>
+    </th:block>
+</body>
+</html>

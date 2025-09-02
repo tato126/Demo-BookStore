@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>대시보드</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <h2 class="mb-4">대시보드</h2>
+        
+        <!-- 통계 카드 -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card bg-primary text-white">
+                    <h3>152</h3>
+                    <p>전체 회원수</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card bg-success text-white">
+                    <h3>486</h3>
+                    <p>등록된 상품</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card bg-warning text-white">
+                    <h3>28</h3>
+                    <p>오늘 주문</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card bg-info text-white">
+                    <h3>₩1.2M</h3>
+                    <p>오늘 매출</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 최근 주문 -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5>최근 주문</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>주문번호</th>
+                            <th>고객명</th>
+                            <th>상품명</th>
+                            <th>금액</th>
+                            <th>상태</th>
+                            <th>주문일시</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#2024001</td>
+                            <td>김철수</td>
+                            <td>자바의 정석</td>
+                            <td>₩30,000</td>
+                            <td><span class="badge bg-warning">처리중</span></td>
+                            <td>2024-01-15 14:30</td>
+                        </tr>
+                        <tr>
+                            <td>#2024002</td>
+                            <td>이영희</td>
+                            <td>스프링 부트 실전</td>
+                            <td>₩35,000</td>
+                            <td><span class="badge bg-success">배송완료</span></td>
+                            <td>2024-01-15 13:20</td>
+                        </tr>
+                        <tr>
+                            <td>#2024003</td>
+                            <td>박민수</td>
+                            <td>클린 코드</td>
+                            <td>₩28,000</td>
+                            <td><span class="badge bg-info">배송중</span></td>
+                            <td>2024-01-15 11:45</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 빠른 메뉴 -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h5>빠른 메뉴</h5>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary" onclick="location.href='/admin/product/create'">상품 등록</button>
+                    <button class="btn btn-outline-success" onclick="location.href='/admin/order'">주문 확인</button>
+                    <button class="btn btn-outline-info" onclick="location.href='/admin/users'">회원 조회</button>
+                    <button class="btn btn-outline-warning" onclick="alert('재고 확인 기능 준비중')">재고 확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <th:block layout:fragment="javascript">
+        <script>
+            // Set active menu
+            const activeMenu = 'dashboard';
+        </script>
+    </th:block>
+</body>
+</html>

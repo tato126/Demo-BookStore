@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Header Fragment</title>
+</head>
+<body>
+    <!-- Header Fragment -->
+    <nav th:fragment="header" class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand">📚 BookStore Admin</span>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">관리자님 환영합니다</span>
+                <button class="btn btn-outline-light btn-sm" onclick="logout()">로그아웃</button>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

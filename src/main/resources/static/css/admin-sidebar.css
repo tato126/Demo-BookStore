@@ -1,0 +1,62 @@
+/* Admin Sidebar Styles */
+
+.sidebar {
+    background-color: #343a40;
+    min-height: 100vh;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    transition: background-color 0.3s;
+    font-size: 0.95rem;
+}
+
+.sidebar a:hover {
+    background-color: #495057;
+    color: #fff;
+}
+
+.sidebar .active {
+    background-color: #007bff;
+    position: relative;
+}
+
+.sidebar .active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #fff;
+}
+
+.sidebar hr {
+    margin: 20px 20px;
+    border-color: #495057;
+}
+
+/* Sidebar Icons */
+.sidebar a::before {
+    margin-right: 8px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+        padding: 10px 0;
+        position: relative;
+    }
+    
+    .sidebar a {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}

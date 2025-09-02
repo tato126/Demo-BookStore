@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<head>
+    <title>회원 상세</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>회원 상세 정보</h2>
+            <button class="btn btn-secondary" onclick="history.back()">목록으로</button>
+        </div>
+
+        <!-- 회원 기본 정보 -->
+        <div class="detail-section">
+            <h5 class="section-title">기본 정보</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="30%">회원번호</th>
+                            <td><strong>U001</strong></td>
+                        </tr>
+                        <tr>
+                            <th>이름</th>
+                            <td>김철수</td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td>kim@example.com</td>
+                        </tr>
+                        <tr>
+                            <th>전화번호</th>
+                            <td>010-1234-5678</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="30%">가입일</th>
+                            <td>2024-01-01</td>
+                        </tr>
+                        <tr>
+                            <th>회원상태</th>
+                            <td><span class="badge bg-success">활성</span></td>
+                        </tr>
+                        <tr>
+                            <th>회원등급</th>
+                            <td>일반회원</td>
+                        </tr>
+                        <tr>
+                            <th>마지막 로그인</th>
+                            <td>2024-01-15 10:30</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 구매 통계 -->
+        <div class="detail-section">
+            <h5 class="section-title">구매 통계</h5>
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <h4 class="text-primary">5</h4>
+                    <p>총 주문수</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-success">₩250,000</h4>
+                    <p>총 구매액</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-info">₩50,000</h4>
+                    <p>평균 구매액</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-warning">2</h4>
+                    <p>이번달 주문</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 최근 주문 내역 -->
+        <div class="detail-section">
+            <h5 class="section-title">최근 주문 내역</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>주문번호</th>
+                        <th>주문일</th>
+                        <th>상품명</th>
+                        <th>금액</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#ORD2024001</td>
+                        <td>2024-01-15</td>
+                        <td>자바의 정석</td>
+                        <td>₩30,000</td>
+                        <td><span class="badge bg-success">배송완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD2024002</td>
+                        <td>2024-01-10</td>
+                        <td>스프링 부트 실전</td>
+                        <td>₩35,000</td>
+                        <td><span class="badge bg-success">배송완료</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 관리 버튼 -->
+        <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-warning" onclick="editUser()">회원정보 수정</button>
+            <button class="btn btn-danger" onclick="suspendUser()">회원 정지</button>
+            <button class="btn btn-secondary" onclick="history.back()">목록으로</button>
+        </div>
+    </div>
+    
+    <th:block layout:fragment="javascript">
+        <script>
+            // Set active menu
+            const activeMenu = 'users';
+            
+            function editUser() {
+                alert('회원 수정 기능 준비중');
+            }
+            
+            function suspendUser() {
+                if (confirm('정말로 이 회원을 정지시키겠습니까?')) {
+                    alert('회원 정지 처리되었습니다.');
+                }
+            }
+        </script>
+    </th:block>
+</body>
+</html>

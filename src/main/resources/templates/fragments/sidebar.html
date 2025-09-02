@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sidebar Fragment</title>
+</head>
+<body>
+    <!-- Sidebar Fragment -->
+    <div th:fragment="sidebar(activeMenu)" class="col-md-2 sidebar">
+        <a th:href="@{/admin/main}" th:classappend="${activeMenu == 'dashboard'} ? 'active' : ''">🏠 대시보드</a>
+        <a th:href="@{/admin/users}" th:classappend="${activeMenu == 'users'} ? 'active' : ''">👥 회원 관리</a>
+        <a th:href="@{/admin/product}" th:classappend="${activeMenu == 'products'} ? 'active' : ''">📦 상품 관리</a>
+        <a th:href="@{/admin/order}" th:classappend="${activeMenu == 'orders'} ? 'active' : ''">🛒 주문 관리</a>
+        <hr class="bg-white">
+        <a href="#" onclick="alert('재고 관리 기능 준비중')">📊 재고 관리</a>
+        <a href="#" onclick="alert('통계 기능 준비중')">📈 통계</a>
+        <a href="#" onclick="alert('설정 기능 준비중')">⚙️ 설정</a>
+    </div>
+</body>
+</html>
