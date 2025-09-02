@@ -191,6 +191,20 @@
                 const productId = pathParts[pathParts.length - 1];
                 window.location.href = `/admin/product/update/${productId}`;
             }
+            
+            // 삭제 함수 오버라이드
+            function deleteProduct() {
+                const pathParts = window.location.pathname.split('/');
+                const productId = pathParts[pathParts.length - 1];
+                
+                if (confirm('정말로 이 상품을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/admin/product/detail/${productId}`;
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            }
         </script>
     </th:block>
 </body>

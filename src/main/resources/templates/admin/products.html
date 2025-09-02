@@ -64,9 +64,9 @@
                         <tr th:each="book, iterStat : ${bookList}" 
                             th:data-category="${book.bookCategory}"
                             th:data-stock="${book.product}"
-                            th:onclick="'viewProductDetail(' + ${iterStat.count} + ')'">
+                            th:onclick="'viewProductDetail(' + ${book.bookId} + ')'">
                             <td><div class="bg-secondary product-img"></div></td>
-                            <td th:text="'B' + ${iterStat.count}">B001</td>
+                            <td th:text="'B' + ${book.bookId}">B001</td>
                             <td><strong th:text="${book.bookName}">상품명</strong></td>
                             <td th:text="${book.author}">저자</td>
                             <td th:text="${book.publisher}">출판사</td>
@@ -78,9 +78,9 @@
                             <td>⭐ -</td>
                             <td>
                                 <button class="btn btn-sm btn-info" 
-                                        th:onclick="'event.stopPropagation(); viewProductDetail(' + ${iterStat.count} + ')'">상세</button>
+                                        th:onclick="'event.stopPropagation(); viewProductDetail(' + ${book.bookId} + ')'">상세</button>
                                 <button class="btn btn-sm btn-warning" 
-                                        th:onclick="'event.stopPropagation(); editProduct(' + ${iterStat.count} + ')'">수정</button>
+                                        th:onclick="'event.stopPropagation(); editProduct(' + ${book.bookId} + ')'">수정</button>
                             </td>
                         </tr>
                         

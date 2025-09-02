@@ -35,20 +35,18 @@ public class ProductService {
         // 유효성 검사
         // (*) 도서(Book) 생성자에서 필드를 Object.requiredNotNull로 검사할 수 있다.
         if (book == null) {
-            System.out.println("도서(Book) 객체가 null 입니다.");
+            throw new IllegalArgumentException("도서 정보가 Null 입니다.");
         }
-
-        // TODO: (!) 임의로 서비스 로직에서 ID를 생성하고 넣어준다.
 
         // TODO: (!) 상품이 등록된 후에 잘 등록되었는지 검증해야한다.
         //           입력한 상품과 등록된 상품이 일치하는지 검증한다.
 
-        System.out.println("BookList에 상품을 저장합니다." + book);
-        bookList.add(book);
+        var newBook = repository.save(book);
 
-        System.out.println("저장된 첫번째 상품 " + bookList.getFirst());
+        System.out.println("상품을 DB에 저장합니다." + book);
+        System.out.println("DB에 저장된 상품 ID:" + book.getBookId());
 
-        return book; // 생성된 상품(책)을 반환한다.
+        return newBook; // 생성된 상품(책)을 반환한다.
     }
 
     // 상품 수정
@@ -76,7 +74,6 @@ public class ProductService {
 
             // (!) null 체크 중복 제거는 어떻게 할 수 있을까?
             // 3. 각 필드 업데이트 (null이 아닌 값만)
-
             if (updatedBook.getBookName() != null) {
                 existingBook.setBookName(updatedBook.getBookName());
             }
@@ -152,7 +149,6 @@ public class ProductService {
         // DB에서 조회한다.
         Optional<Book> optionalBook = repository.findById(id);
 
-        // 이걸 DB에서 테스트 하려면 어떻게 해야하지?
         // repository.findById(id) 가 null이 아닐경우
         if (optionalBook.isPresent()) {
 
@@ -172,11 +168,16 @@ public class ProductService {
 
         System.out.println("== [Service] 단일 상품 조회 ==");
 
-        System.out.println("삭제할 객체 : " + findById_product(id));
+        // 예외 처리
+        var findProduct = findById_product(id);
+
+        if (findProduct == null) {
+            throw new IllegalArgumentException("삭제하려는 상품이 null 입니다.");
+        }
 
         // 삭제
-        var deleteProduct = findById_product(id);
-        bookList.remove(deleteProduct);
+        repository.delete(findProduct);
+
 
         System.out.println(id + "삭제 완료!!!");
     }
